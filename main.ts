@@ -94,16 +94,14 @@ loops.everyInterval(200, function () {
     leftDelta = encoders.getDeltaLeftValue()
     rightDelta = encoders.getDeltaRightValue()
     if (debug) {
-        serial.writeValue("l", encoders.getLeftTotalCount())
-        serial.writeValue("r", encoders.getRightTotalCount())
+        serial.writeNumbers([encoders.getLeftTotalCount(), encoders.getRightTotalCount()])
         serial.writeValue("X", Math.round(odometry.getX()))
         serial.writeValue("Y", Math.round(odometry.getY()))
         serial.writeValue("A", Math.round(odometry.getOrientationDegrees()))
-        serial.writeLine("left:" + encoders.getLeftTotalCount() + " right:" + encoders.getRightTotalCount())
     }
     // Mettre à jour l'odométrie seulement si il y a eu du mouvement
     if (leftDelta != 0 || rightDelta != 0) {
         odometry.updateFromTicks(leftDelta, rightDelta)
-        serial.writeLine("X=" + Math.round(odometry.getX()) + ",  Y=" + Math.round(odometry.getY()) + ",  A=" + Math.round(odometry.getOrientationDegrees()))
+        serial.writeLine("X:" + Math.round(odometry.getX()) + ",Y:" + Math.round(odometry.getY()) + ",A:" + Math.round(odometry.getOrientationDegrees()))
     }
 })
